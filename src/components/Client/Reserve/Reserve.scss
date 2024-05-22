@@ -1,0 +1,74 @@
+// Định nghĩa biến cho màu và các giá trị khác có thể tái sử dụng
+$primary-color: #3498db;
+$border-color: #ddd;
+
+.ReserveTable {
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // margin-top: 20px;
+
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+.ReserveWrapper {
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    margin: 10%;
+}
+
+.bookingContainer {
+    width: 900px;
+    position: relative;
+}
+
+.bookingTable {
+    
+    width: 100%;
+    border-collapse: collapse;
+    border-color: #0071c2;
+}
+
+
+.reserve-thead {
+    background-color: #007bff;
+    color: #ffffff;
+
+}
+th {
+    padding: 10px;
+  }
+
+// Kiểu cho các dòng trong bảng, xen kẽ màu nền
+tbody {
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  }
+
+
+
+///////tableReserve
+.tableReserve{
+    display: flex;
+    height: auto;
+    width: 700px;
+    // background-color: #007bff;
+    padding: auto;
+
+}
+.select_room{
+    // padding: 10px 10px;
+    // border: 1px solid $border-color;
+    // background-color: white;
+    // color: $primary-color;
+    // cursor: pointer;
+}

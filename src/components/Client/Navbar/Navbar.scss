@@ -1,0 +1,36 @@
+.navbarClient {
+  height: 60px;
+  background-color: #003580;
+  display: flex;
+  justify-content: center;
+ 
+}
+
+.navContainer {
+  width: 100%;
+  max-width: 1024px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 10%;
+  // margin-top: 10px;
+  padding-top: -100px;
+}
+
+
+.logo {
+  font-weight: 500;
+}
+
+.navButton {
+  margin-left: 20px;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: #003580;
+}
+
+.NavDropdown{
+  margin-right: 50px;
+}

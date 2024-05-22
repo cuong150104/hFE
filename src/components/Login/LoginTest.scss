@@ -1,0 +1,129 @@
+.login-container {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  padding-top: 20px;
+
+  .content-left {
+    margin-top: 50px;
+
+    .brand {
+      .brand-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .brand__name {
+        text-transform: uppercase;
+        font-size: 40px;
+        color: #1877f2;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    .detail {
+      font-size: 20px;
+    }
+  }
+
+  .content-right {
+    background-color: #fff;
+    border-radius: 8px;
+
+    box-shadow: 0 2px 4px rgb(0 0 0/10%), 0 8px 16px rgb(0 0 0/10%);
+    box-sizing: border-box;
+
+    .forgot-password {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .return {
+      a {
+        text-decoration: none;
+      }
+
+      span {
+        padding-left: 7px;
+      }
+    }
+
+    .brand {
+      text-transform: uppercase;
+      font-size: 20px;
+      color: #1877f2;
+      text-align: center;
+      font-weight: 600;
+    }
+  }
+}
+.login-container {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    padding-top: 20px;
+  
+    .content-left {
+      margin-top: 50px;
+  
+      .brand {
+        .brand-item {
+          display: flex;
+          align-items: center;
+        }
+  
+        .brand__name {
+          text-transform: uppercase;
+          font-size: 40px;
+          color: #1877f2;
+        }
+  
+        a {
+          text-decoration: none;
+        }
+      }
+  
+      .detail {
+        font-size: 20px;
+      }
+    }
+  
+    .content-right {
+      background-color: #fff;
+      border-radius: 8px;
+  
+      box-shadow: 0 2px 4px rgb(0 0 0/10%), 0 8px 16px rgb(0 0 0/10%);
+      box-sizing: border-box;
+  
+      .forgot-password {
+        text-decoration: none;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+  
+      .return {
+        a {
+          text-decoration: none;
+        }
+  
+        span {
+          padding-left: 7px;
+        }
+      }
+  
+      .brand {
+        text-transform: uppercase;
+        font-size: 20px;
+        color: #1877f2;
+        text-align: center;
+        font-weight: 600;
+      }
+    }
+  }
+  
