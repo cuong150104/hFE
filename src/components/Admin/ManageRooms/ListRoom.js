@@ -1,41 +1,40 @@
 import { useEffect, useState } from "react";
-import "./Hotels.scss";
-import {
-  deleteHotel,
-  privateRequestGetHotels,
-} from "../../../servises/hotelService";
+import "./Rooms.scss";
 
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import ModalDelete from "./ModalDelete";
-import ModalHotel from "./ModalHotel";
-import { useHistory } from "react-router-dom";
+import { deleteRoom, getRoomsByHotelId } from "../../../servises/roomServises";
+import { useParams } from "react-router-dom";
+import ModalRoom from "./ModelRoom";
 
-const Hotels = (props) => {
-  const history = useHistory();
-  const [listUsers, setListUsers] = useState([]);
+const DEFAULT_LIMIT = 4;
+
+const ListRoom = () => {
+  const params = useParams();
+
+  const [listRoom, setListRoom] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentLimit, setCurrentLimit] = useState(4);
   const [totalPages, setTotalPages] = useState(0);
+
   // modal delete
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
   const [dataModal, setDataModal] = useState({});
-  // modal update/create user
-  const [isShowModalUser, setIsShowModalUser] = useState(false);
-  const [actionModalUser, setActionModalUser] = useState("CREATE");
-  const [dataModalUser, setDataModalUser] = useState({});
+
+  const [isShowModalRoom, setIsShowModalRoom] = useState(false);
+  const [actionModalRoom, setActionModalRoom] = useState("CREATE");
+  const [dataModalRoom, setDataModalRoom] = useState({});
 
   useEffect(() => {
-    fetchUsers();
+    fetchRooms();
   }, [currentPage]);
 
-  const fetchUsers = async () => {
-    let response = await privateRequestGetHotels(currentPage, currentLimit);
+  const fetchRooms = async () => {
+    let response = await getRoomsByHotelId(params?.hotelId, currentPage);
 
     if (response && response.EC === 0) {
-      console.log(response.DT);
       setTotalPages(response.DT.totalPages);
-      setListUsers(response.DT.hotels);
+      setListRoom(response.DT.rooms);
     }
   };
 
@@ -43,7 +42,7 @@ const Hotels = (props) => {
     setCurrentPage(+event.selected + 1);
   };
 
-  const handleDeleteUser = async (user) => {
+  const handleDeleteRoom = async (user) => {
     setDataModal(user);
     setIsShowModalDelete(true);
   };
@@ -53,36 +52,31 @@ const Hotels = (props) => {
     setDataModal({});
   };
 
-  const confirmDeleteUser = async () => {
-    let response = await deleteHotel(dataModal);
-    console.log(">>Check response: ", response);
+  const confirmDeleteRoom = async () => {
+    const response = await deleteRoom(dataModal.id);
     if (response && response.EC === 0) {
       toast.success(response.EM);
-      await fetchUsers();
+      await fetchRooms();
       setIsShowModalDelete(false);
     } else {
       toast.error(response.EM);
     }
   };
 
-  const onHideModalHotel = async () => {
-    setIsShowModalUser(false);
-    setDataModalUser({});
-    await fetchUsers();
+  const onHideModalHotel = () => {
+    setIsShowModalRoom(false);
+    setDataModalRoom({});
+    fetchRooms();
   };
 
-  const handleEditUser = (user) => {
-    setActionModalUser("UPDATE");
-    setDataModalUser(user);
-    setIsShowModalUser(true);
+  const handleEditRoom = (data) => {
+    setActionModalRoom("UPDATE");
+    setDataModalRoom(data);
+    setIsShowModalRoom(true);
   };
 
-  const handleRefresh = async () => {
-    await fetchUsers();
-  };
-
-  const onNavigateToRooms = (hotelId) => {
-    history.push(`/hotels/${hotelId}/rooms`);
+  const handleRefresh = () => {
+    fetchRooms();
   };
 
   return (
@@ -91,12 +85,12 @@ const Hotels = (props) => {
         <div className="manage-user-container">
           <div className="user-header">
             <div className="title mt-3">
-              <h3>Manage </h3>
+              <h3>Manage {listRoom?.[0]?.hotel?.name}'s Room</h3>
             </div>
             <div className="actions my-3">
               <button
                 className="btn btn-success refresh"
-                onClick={() => handleRefresh()}
+                onClick={handleRefresh}
               >
                 <i className="fa fa-refresh"></i>
                 Refresh
@@ -104,12 +98,12 @@ const Hotels = (props) => {
               <button
                 className="btn btn-primary"
                 onClick={() => {
-                  setIsShowModalUser(true);
-                  setActionModalUser("CREATE");
+                  setIsShowModalRoom(true);
+                  setActionModalRoom("CREATE");
                 }}
               >
                 <i className="fa fa-plus-circle"></i>
-                Add New Hotel
+                Add New Room
               </button>
             </div>
           </div>
@@ -119,47 +113,44 @@ const Hotels = (props) => {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Id</th>
-                  <th scope="col">NameHotel</th>
+                  <th scope="col">Room Number</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Max People</th>
                   <th scope="col">Type</th>
-                  <th scope="col">Phone</th>
+                  <th scope="col">Status</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {listUsers && listUsers.length > 0 ? (
+                {listRoom && listRoom.length > 0 ? (
                   <>
-                    {listUsers.map((item, index) => {
+                    {listRoom.map((item, index) => {
                       return (
-                        <tr
-                          key={`row-${index}`}
-                          onClick={() => onNavigateToRooms(item.id)}
-                        >
+                        <tr key={`row-${index}`}>
                           <td>
-                            {(currentPage - 1) * currentLimit + index + 1}
+                            {(currentPage - 1) * DEFAULT_LIMIT + index + 1}
                           </td>
                           <td>{item.id}</td>
-                          <td>{item.name}</td>
-                          <td>{item.type}</td>
-                          <td>{item.phone}</td>
+                          <td>{item.roomNumbers}</td>
+                          <td>{item.price}</td>
+                          <td>{item.max_people}</td>
+                          <td>{item.roomType.type_name}</td>
+                          <td>
+                            {item.roomStatus === 0 ? "Occupied" : "Vacant"}
+                          </td>
 
                           <td>
                             <span
                               title="Edit"
                               className="edit"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleEditUser(item);
-                              }}
+                              onClick={() => handleEditRoom(item)}
                             >
                               <i className="fa fa-pencil"></i>
                             </span>
                             <span
                               title="Delete"
                               className="delete"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteUser(item);
-                              }}
+                              onClick={() => handleDeleteRoom(item)}
                             >
                               <i className="fa fa-trash"></i>
                             </span>
@@ -171,7 +162,7 @@ const Hotels = (props) => {
                 ) : (
                   <>
                     <tr>
-                      <td>Not Found User</td>
+                      <td>Room not found</td>
                     </tr>
                   </>
                 )}
@@ -181,12 +172,12 @@ const Hotels = (props) => {
           {totalPages > 0 && (
             <div className="user-footer">
               <ReactPaginate
-                nextLabel="next >"
+                nextLabel="Next >"
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={9}
                 marginPagesDisplayed={4}
                 pageCount={totalPages}
-                previousLabel="< previous"
+                previousLabel="< Previous"
                 pageClassName="page-item"
                 pageLinkClassName="page-link"
                 previousClassName="page-item"
@@ -208,18 +199,19 @@ const Hotels = (props) => {
       <ModalDelete
         show={isShowModalDelete}
         handleClose={handleClose}
-        confirmDeleteUser={confirmDeleteUser}
+        confirmDeleteRoom={confirmDeleteRoom}
         dataModal={dataModal}
       />
 
-      <ModalHotel
-        show={isShowModalUser}
+      <ModalRoom
+        show={isShowModalRoom}
         onHide={onHideModalHotel}
-        action={actionModalUser}
-        dataModalUser={dataModalUser}
+        action={actionModalRoom}
+        dataModalRoom={dataModalRoom}
+        hotelId={params?.hotelId}
       />
     </>
   );
 };
 
-export default Hotels;
+export default ListRoom;

@@ -1,9 +1,17 @@
 import axios from "../setup/axios";
 
-
 //hotel
 const fetchAllHotels = (page, limit) => {
   return axios.get(`/api/v1/hotelAdmin/read?page=${page}&limit=${limit}`);
+};
+
+const privateRequestGetHotels = (page, limit) => {
+  return axios.get("/api/v1/private/hotel/read", {
+    params: {
+      page,
+      limit,
+    },
+  });
 };
 
 const createNewHotel = (userHotel) => {
@@ -24,15 +32,14 @@ const deleteHotel = (user) => {
   });
 };
 
-
 const fetchDateHotel = () => {
   return axios.get(`/api/v1/hotels/read`);
-}
+};
 export {
-
   fetchAllHotels,
   createNewHotel,
   updateCurrentHotel,
   deleteHotel,
   fetchDateHotel,
+  privateRequestGetHotels,
 };

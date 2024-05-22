@@ -6,6 +6,8 @@ import GroupRole from "../components/Admin/GroupRole/GroupRole";
 import Hotels from "../components/Admin/ManageHotels/Hotels";
 import Admin from "../components/Admin/Admin";
 import NotFound from "../components/NotFound/NotFound";
+import ListRoom from "../components/Admin/ManageRooms/ListRoom";
+
 const AppRoutes = (props) => {
   const Project = () => {
     return <span>Hotels</span>;
@@ -17,13 +19,13 @@ const AppRoutes = (props) => {
         <PrivateRoutes path="/projects" component={Project} />
         <PrivateRoutes path="/roles" component={Role} />
         <PrivateRoutes path="/group-role" component={GroupRole} />
+        <PrivateRoutes path="/hotels/:hotelId/rooms" component={ListRoom} />
         <PrivateRoutes path="/hotels" component={Hotels} />
 
         <Route path="/admin" exact>
           <Admin />
         </Route>
 
-  
         <Route path="*">
           <NotFound />
         </Route>
