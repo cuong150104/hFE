@@ -86,7 +86,6 @@ const NavHeader = (props) => {
                     <NavLink to="/Rooms" className="nav-link">
                       Rooms
                     </NavLink>
-
                   </Nav>
                   <Nav>
                     <Nav.Item className="nav-link welcome">

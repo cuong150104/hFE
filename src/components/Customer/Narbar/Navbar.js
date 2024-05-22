@@ -71,10 +71,9 @@ const CompanyNav = (props) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-auto">
-
-                    {/* <NavLink to="/company-jobs-status" className="nav-link">
-                      Check status jobs
-                    </NavLink> */}
+                    <NavLink to="/hotels" className="nav-link">
+                      Hotels
+                    </NavLink>
                   </Nav>
                   <Nav>
                     <Nav.Item className="nav-link welcome">
