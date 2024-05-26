@@ -1,0 +1,24 @@
+.manage-booking-container {
+  i {
+    padding-right: 7px;
+  }
+
+  .actions {
+    .refresh {
+      margin-right: 10px;
+    }
+  }
+
+  .room-body {
+    .edit {
+      padding-right: 10px;
+      color: orange;
+      cursor: pointer;
+    }
+
+    .delete {
+      color: red;
+      cursor: pointer;
+    }
+  }
+}
